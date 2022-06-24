@@ -1,0 +1,18 @@
+apiVersion: kubescheduler.config.k8s.io/v1beta2
+kind: KubeSchedulerConfiguration
+leaderElection:
+  leaderElect: false
+profiles:
+- schedulerName: trimaran
+  plugins:
+    score:
+      enabled:
+       - name: LoadVariationRiskBalancing
+  pluginConfig:
+  - name: LoadVariationRiskBalancing
+    args:
+      metricProvider:
+        type: Prometheus
+        address: http://prometheus-k8s.monitoring.svc.cluster.local:9090
+      safeVarianceMargin: 1
+      safeVarianceSensitivity: 2
